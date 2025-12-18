@@ -1,26 +1,182 @@
 @import "tailwindcss";
 
+/* Glider.fi Inspired Design System */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Background Colors - Glider.fi style */
+  --background: #0a0a0a;
+  --background-elevated: #1a1a1a;
+  --background-secondary: #161616;
+  --background-tertiary: #0d0d0d;
+
+  /* Foreground/Text Colors */
+  --foreground: #ffffff;
+  --foreground-secondary: #a1a1a1;
+  --foreground-tertiary: #6b7280;
+  --foreground-muted: #52525b;
+
+  /* Accent Colors - Glider.fi mint/emerald green */
+  --accent-primary: #10b981;
+  --accent-primary-hover: #059669;
+  --accent-secondary: #34d399;
+
+  /* Border Colors */
+  --border-primary: #262626;
+  --border-secondary: #2a2a2a;
+  --border-tertiary: #1f1f1f;
+
+  /* Card Backgrounds */
+  --card-background: #1a1a1a;
+  --card-border: #262626;
+
+  /* Status Colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
 }
 
 @theme inline {
+  /* Background */
   --color-background: var(--background);
+  --color-background-elevated: var(--background-elevated);
+  --color-background-secondary: var(--background-secondary);
+  --color-background-tertiary: var(--background-tertiary);
+
+  /* Text */
   --color-foreground: var(--foreground);
+  --color-foreground-secondary: var(--foreground-secondary);
+  --color-foreground-tertiary: var(--foreground-tertiary);
+  --color-foreground-muted: var(--foreground-muted);
+
+  /* Accent */
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-primary-hover: var(--accent-primary-hover);
+  --color-accent-secondary: var(--accent-secondary);
+
+  /* Borders */
+  --color-border-primary: var(--border-primary);
+  --color-border-secondary: var(--border-secondary);
+  --color-border-tertiary: var(--border-tertiary);
+
+  /* Cards */
+  --color-card-background: var(--card-background);
+  --color-card-border: var(--card-border);
+
+  /* Status */
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-info: var(--info);
+
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Shadows - Subtle, Glider.fi style */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.2);
+
+  /* Border Radius - Glider.fi uses 12-16px */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   Custom Scrollbar Styles - Modern & Elegant
+   ======================================== */
+
+/* Option 1: Custom Styled Scrollbar (Glider.fi style) */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(16, 185, 129, 0.2) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.2);
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.4);
+}
+
+/* Option 2: Hidden Scrollbar - Still Scrollable */
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Option 3: Fade Scrollbar - Appears on Hover */
+.fade-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+}
+
+.fade-scrollbar:hover {
+  scrollbar-color: rgba(16, 185, 129, 0.3) transparent;
+}
+
+.fade-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.fade-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fade-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.fade-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.3);
+}
+
+.fade-scrollbar:hover::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.5);
+}
+
+/* Option 4: Gradient Fade Effect at Edges */
+.scroll-fade-top {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 100%);
+}
+
+.scroll-fade-bottom {
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, black 8%, black 100%);
+  mask-image: linear-gradient(to top, transparent 0%, black 8%, black 100%);
+}
+
+.scroll-fade-both {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
 }
