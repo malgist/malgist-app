@@ -3,7 +3,6 @@
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { motion } from 'framer-motion';
 import {
-  User,
   TrendingUp,
   Users,
   Calendar,
@@ -15,17 +14,48 @@ import {
   Star,
   Award,
   Sparkles,
+  Camera,
 } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { generateAvatar, type AvatarStyle } from '@/lib/avatar';
+import { AvatarSelector } from '@/components/profile/AvatarSelector';
 
 export default function ProfilePage({ params }: { params: { address: string } }) {
   const [copiedAddress, setCopiedAddress] = useState(false);
+  const [showAvatarSelector, setShowAvatarSelector] = useState(false);
+
+  // Initialize avatar preferences from localStorage
+  const [avatarStyle, setAvatarStyle] = useState<AvatarStyle>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(`avatar-style-${params.address}`);
+      return (saved as AvatarStyle) || 'adventurer';
+    }
+    return 'adventurer';
+  });
+
+  const [avatarSeed, setAvatarSeed] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(`avatar-seed-${params.address}`);
+      return saved || params.address;
+    }
+    return params.address;
+  });
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(params.address);
     setCopiedAddress(true);
     setTimeout(() => setCopiedAddress(false), 2000);
+  };
+
+  const handleSaveAvatar = (style: AvatarStyle, seed: string) => {
+    setAvatarStyle(style);
+    setAvatarSeed(seed);
+
+    // Save to localStorage
+    localStorage.setItem(`avatar-style-${params.address}`, style);
+    localStorage.setItem(`avatar-seed-${params.address}`, seed);
   };
 
   // Mock profile data
@@ -100,15 +130,28 @@ export default function ProfilePage({ params }: { params: { address: string } })
         >
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
             {/* Avatar */}
-            <div className="relative">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center">
-                <User className="w-12 h-12 text-white" />
+            <div className="relative group">
+              <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-emerald-500/20">
+                <Image
+                  src={generateAvatar(avatarSeed, avatarStyle)}
+                  alt={profileData.user.username}
+                  width={96}
+                  height={96}
+                  className="w-full h-full"
+                />
               </div>
               {profileData.user.isVerified && (
                 <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center border-4 border-[#0a0a0a]">
                   <Star className="w-4 h-4 text-white fill-white" />
                 </div>
               )}
+              {/* Edit Avatar Button */}
+              <button
+                onClick={() => setShowAvatarSelector(true)}
+                className="absolute inset-0 rounded-full bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+              >
+                <Camera className="w-6 h-6 text-white" />
+              </button>
             </div>
 
             {/* User Info */}
@@ -284,6 +327,14 @@ export default function ProfilePage({ params }: { params: { address: string } })
           </div>
         </div>
       </div>
+
+      {/* Avatar Selector Modal */}
+      <AvatarSelector
+        isOpen={showAvatarSelector}
+        onClose={() => setShowAvatarSelector(false)}
+        currentAddress={params.address}
+        onSave={handleSaveAvatar}
+      />
     </DashboardLayout>
   );
 }

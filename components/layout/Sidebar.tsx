@@ -52,9 +52,9 @@ export function Sidebar() {
         )}
       >
         {/* Logo - Glider.fi style - Larger */}
-        <div className="p-6 border-b border-[#262626]">
+        <div className="p-3 border-b border-[#262626]">
           <div className="flex items-center gap-4">
-            <div className="w-11 h-11 rounded-xl flex items-center justify-center overflow-hidden bg-gradient-to-br from-emerald-500 to-emerald-600">
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center overflow-hidden bg-gradient-to-br from-emerald-500 to-emerald-600">
               <Image
                 src="/LogoMalgist.png"
                 alt="Malgist Logo"
@@ -65,7 +65,7 @@ export function Sidebar() {
             </div>
             {!collapsed && (
               <div>
-                <h1 className="text-xl font-bold text-white tracking-tight">Malgist</h1>
+                <h1 className="text-base font-bold text-white tracking-tight">Malgist</h1>
                 <p className="text-sm text-[#6b7280]">Automated Portfolios</p>
               </div>
             )}

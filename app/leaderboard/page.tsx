@@ -22,6 +22,8 @@ import {
 } from 'lucide-react';
 import { StrategyDetailModal } from '@/components/leaderboard/StrategyDetailModal';
 import { useRouter } from 'next/navigation';
+import { generateAvatar } from '@/lib/avatar';
+import Image from 'next/image';
 
 // Mock leaderboard data
 interface LeaderboardEntry {
@@ -397,14 +399,33 @@ export default function LeaderboardPage() {
                   )} border-2 ${getPodiumHeight(entry.rank)} flex flex-col justify-between overflow-hidden cursor-pointer hover:border-emerald-500 transition-all`}
                 >
                   <div className="text-center flex-1 flex flex-col justify-center">
-                    <div className="flex items-center justify-center mb-2">
-                      {entry.rank === 1 ? (
-                        <Trophy className="w-10 h-10 md:w-12 md:h-12 text-yellow-500 flex-shrink-0" />
-                      ) : entry.rank === 2 ? (
-                        <Medal className="w-8 h-8 md:w-10 md:h-10 text-gray-400 flex-shrink-0" />
-                      ) : (
-                        <Medal className="w-8 h-8 md:w-10 md:h-10 text-orange-700 flex-shrink-0" />
-                      )}
+                    <div className="flex items-center justify-center mb-3">
+                      <div className="relative">
+                        <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-4 border-white/10">
+                          <Image
+                            src={generateAvatar(entry.user.address, 'adventurer')}
+                            alt={entry.user.username || 'User'}
+                            width={80}
+                            height={80}
+                            className="w-full h-full"
+                          />
+                        </div>
+                        <div className="absolute -bottom-1 -right-1">
+                          {entry.rank === 1 ? (
+                            <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-yellow-500 flex items-center justify-center border-2 border-[#0a0a0a]">
+                              <Trophy className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                            </div>
+                          ) : entry.rank === 2 ? (
+                            <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-gray-400 flex items-center justify-center border-2 border-[#0a0a0a]">
+                              <Medal className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                            </div>
+                          ) : (
+                            <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-orange-700 flex items-center justify-center border-2 border-[#0a0a0a]">
+                              <Medal className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
                     <div className="text-base md:text-lg font-bold text-white mb-1 flex items-center justify-center gap-2 px-2">
                       <span className="truncate max-w-[150px]">{entry.user.username}</span>
@@ -496,23 +517,34 @@ export default function LeaderboardPage() {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-medium text-white">{entry.user.username}</span>
-                          {entry.user.isVerified && <Star className="w-4 h-4 text-blue-400 fill-blue-400" />}
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border-2 border-white/10">
+                          <Image
+                            src={generateAvatar(entry.user.address, 'adventurer')}
+                            alt={entry.user.username || 'User'}
+                            width={40}
+                            height={40}
+                            className="w-full h-full"
+                          />
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm text-[#a1a1a1]">{entry.user.address}</span>
-                          <button
-                            onClick={(e) => handleCopyAddress(entry.user.address, e)}
-                            className="text-[#6b7280] hover:text-white transition-colors"
-                          >
-                            {copiedAddress === entry.user.address ? (
-                              <Check className="w-3 h-3 text-green-400" />
-                            ) : (
-                              <Copy className="w-3 h-3" />
-                            )}
-                          </button>
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="font-medium text-white">{entry.user.username}</span>
+                            {entry.user.isVerified && <Star className="w-4 h-4 text-blue-400 fill-blue-400" />}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-[#a1a1a1]">{entry.user.address}</span>
+                            <button
+                              onClick={(e) => handleCopyAddress(entry.user.address, e)}
+                              className="text-[#6b7280] hover:text-white transition-colors"
+                            >
+                              {copiedAddress === entry.user.address ? (
+                                <Check className="w-3 h-3 text-green-400" />
+                              ) : (
+                                <Copy className="w-3 h-3" />
+                              )}
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </td>
