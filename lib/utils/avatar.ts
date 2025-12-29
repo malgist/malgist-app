@@ -1,5 +1,6 @@
 import { createAvatar } from '@dicebear/core';
 import { adventurer, avataaars, bottts, lorelei, personas, pixelArt } from '@dicebear/collection';
+import type { StyleOptions } from '@dicebear/core';
 
 export type AvatarStyle = 'adventurer' | 'avataaars' | 'bottts' | 'lorelei' | 'personas' | 'pixelArt';
 
@@ -10,7 +11,7 @@ const styleMap = {
   lorelei,
   personas,
   pixelArt,
-};
+} as const;
 
 /**
  * Generate a consistent avatar based on a seed (wallet address or identifier)
@@ -19,7 +20,8 @@ const styleMap = {
  * @returns SVG string of the avatar
  */
 export function generateAvatar(seed: string, style: AvatarStyle = 'adventurer'): string {
-  const avatar = createAvatar(styleMap[style], {
+  const selectedStyle = styleMap[style];
+  const avatar = createAvatar(selectedStyle as any, {
     seed,
     size: 128,
   });
@@ -47,9 +49,10 @@ export const avatarStyles: { name: AvatarStyle; label: string }[] = [
  */
 export function generateAvatarVariations(seed: string, style: AvatarStyle = 'adventurer', count: number = 6): string[] {
   const variations: string[] = [];
+  const selectedStyle = styleMap[style];
 
   for (let i = 0; i < count; i++) {
-    const avatar = createAvatar(styleMap[style], {
+    const avatar = createAvatar(selectedStyle as any, {
       seed: `${seed}-${i}`,
       size: 128,
     });
