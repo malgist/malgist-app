@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import logoSrc from "@/public/LogoMalgist.png";
 import {
   LayoutDashboard,
   TrendingUp,
@@ -56,7 +57,7 @@ export function Sidebar() {
           <div className="flex items-center gap-4">
             <div className="w-8 h-8 rounded-xl flex items-center justify-center overflow-hidden bg-gradient-to-br from-emerald-500 to-emerald-600">
               <Image
-                src="/LogoMalgist.png"
+              src={logoSrc}
                 alt="Malgist Logo"
                 width={44}
                 height={44}

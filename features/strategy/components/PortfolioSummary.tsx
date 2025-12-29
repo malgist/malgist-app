@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { ArrowRight, AlertCircle, CheckCircle2 } from 'lucide-react';
-import { CustomAllocation } from '@/types';
+import { CustomAllocation, TokenType } from '@/types';
+import { DepositModal } from '@/features/portfolio/components';
 
 interface PortfolioSummaryProps {
   customAllocations: CustomAllocation[];
@@ -16,12 +18,24 @@ export function PortfolioSummary({
   expectedApy,
   onSave,
 }: PortfolioSummaryProps) {
+  const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const highRiskPercentage = customAllocations
     .filter((a) => a.risk === 'high')
     .reduce((sum, a) => sum + a.percentage, 0);
 
   const hasOverconcentration = customAllocations.some((a) => a.percentage > 50);
   const isValid = totalAllocation === 100 && customAllocations.length > 0;
+
+  const handleSaveAndImplement = () => {
+    onSave(); // Call the original onSave callback
+    setIsDepositModalOpen(true); // Open deposit modal
+  };
+
+  const handleDeposit = (amount: number, token: TokenType, protocol?: string) => {
+    console.log('Deposit to strategy:', { amount, token, protocol, allocations: customAllocations });
+    // Here you can implement the actual deposit logic
+    setIsDepositModalOpen(false);
+  };
 
   return (
     <div className="p-4 rounded-xl bg-zinc-900 border border-zinc-800 sticky top-4">
@@ -141,13 +155,20 @@ export function PortfolioSummary({
 
       {/* Save Button */}
       <button
-        onClick={onSave}
+        onClick={handleSaveAndImplement}
         disabled={!isValid}
         className="w-full py-3 px-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 disabled:from-zinc-700 disabled:to-zinc-700 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-all flex items-center justify-center gap-2"
       >
         Save & Implement Strategy
         <ArrowRight className="w-4 h-4" />
       </button>
+
+      {/* Deposit Modal */}
+      <DepositModal
+        isOpen={isDepositModalOpen}
+        onClose={() => setIsDepositModalOpen(false)}
+        onDeposit={handleDeposit}
+      />
     </div>
   );
 }

@@ -17,8 +17,7 @@ import {
 } from 'lucide-react';
 import { RiskLevel, StrategyAnalysis, Protocol, CustomAllocation } from '@/types';
 import { useRouter } from 'next/navigation';
-import { ProtocolLibrary, StrategyCanvas, PortfolioSummary } from '@/components/strategy';
-import { AIQuestionnaireModal } from '@/components/strategy/AIQuestionnaireModal';
+import { ProtocolLibrary, StrategyCanvas, PortfolioSummary, AIQuestionnaireModal } from '@/features/strategy/components';
 import { MessageCircle } from 'lucide-react';
 
 const riskProfiles = [
@@ -245,7 +244,7 @@ export default function StrategyPage() {
 
   const handleUseStrategy = () => {
     setIsCustomizing(false);
-    router.push('/portfolio?tab=deposit');
+    router.push('/?tab=deposit'); // Navigate to dashboard with deposit tab
   };
 
   // Custom Strategy Functions
@@ -331,7 +330,7 @@ export default function StrategyPage() {
   const handleSaveStrategy = () => {
     if (totalAllocation === 100 && customAllocations.length > 0) {
       console.log('Strategy saved:', { customAllocations, expectedApy, totalAllocation });
-      router.push('/portfolio?tab=deposit');
+      router.push('/?tab=deposit'); // Navigate to dashboard with deposit tab
     }
   };
 

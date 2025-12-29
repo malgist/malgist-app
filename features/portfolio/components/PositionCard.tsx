@@ -43,6 +43,8 @@ export function PositionCard({
         return { bg: 'bg-yellow-500/10', border: 'border-yellow-500/30', text: 'text-yellow-400', icon: TrendingUp };
       case 'high':
         return { bg: 'bg-red-500/10', border: 'border-red-500/30', text: 'text-red-400', icon: Zap };
+      default:
+        return { bg: 'bg-green-500/10', border: 'border-green-500/30', text: 'text-green-400', icon: Shield };
     }
   };
 

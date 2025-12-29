@@ -19,8 +19,8 @@ import {
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { generateAvatar, type AvatarStyle } from '@/lib/avatar';
-import { AvatarSelector } from '@/components/profile/AvatarSelector';
+import { generateAvatar, type AvatarStyle } from '@/lib/utils/avatar';
+import { AvatarSelector } from '@/features/profile/components';
 
 export default function ProfilePage({ params }: { params: { address: string } }) {
   const [copiedAddress, setCopiedAddress] = useState(false);

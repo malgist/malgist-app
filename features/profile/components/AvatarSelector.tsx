@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Sparkles, RefreshCw } from 'lucide-react';
 import Image from 'next/image';
-import { generateAvatar, generateAvatarVariations, avatarStyles, type AvatarStyle } from '@/lib/avatar';
+import { generateAvatar, generateAvatarVariations, avatarStyles, type AvatarStyle } from '@/lib/utils/avatar';
 
 interface AvatarSelectorProps {
   isOpen: boolean;

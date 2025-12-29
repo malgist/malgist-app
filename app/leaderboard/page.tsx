@@ -20,9 +20,9 @@ import {
   Copy,
   Check,
 } from 'lucide-react';
-import { StrategyDetailModal } from '@/components/leaderboard/StrategyDetailModal';
+import { StrategyDetailModal } from '@/features/leaderboard/components';
 import { useRouter } from 'next/navigation';
-import { generateAvatar } from '@/lib/avatar';
+import { generateAvatar } from '@/lib/utils/avatar';
 import Image from 'next/image';
 
 // Mock leaderboard data
