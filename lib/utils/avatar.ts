@@ -1,6 +1,5 @@
 import { createAvatar } from '@dicebear/core';
 import { adventurer, avataaars, bottts, lorelei, personas, pixelArt } from '@dicebear/collection';
-import type { StyleOptions } from '@dicebear/core';
 
 export type AvatarStyle = 'adventurer' | 'avataaars' | 'bottts' | 'lorelei' | 'personas' | 'pixelArt';
 
@@ -11,7 +10,7 @@ const styleMap = {
   lorelei,
   personas,
   pixelArt,
-} as const;
+};
 
 /**
  * Generate a consistent avatar based on a seed (wallet address or identifier)
@@ -21,6 +20,7 @@ const styleMap = {
  */
 export function generateAvatar(seed: string, style: AvatarStyle = 'adventurer'): string {
   const selectedStyle = styleMap[style];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const avatar = createAvatar(selectedStyle as any, {
     seed,
     size: 128,
@@ -52,6 +52,7 @@ export function generateAvatarVariations(seed: string, style: AvatarStyle = 'adv
   const selectedStyle = styleMap[style];
 
   for (let i = 0; i < count; i++) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const avatar = createAvatar(selectedStyle as any, {
       seed: `${seed}-${i}`,
       size: 128,

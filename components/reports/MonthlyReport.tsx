@@ -67,7 +67,7 @@ export function MonthlyReport() {
             Monthly Reports Coming Soon
           </h3>
           <p className="text-[#a1a1a1]">
-            We're working on comprehensive monthly reports that will include detailed
+            We&apos;re working on comprehensive monthly reports that will include detailed
             analytics, performance metrics, and downloadable PDF reports.
           </p>
         </div>

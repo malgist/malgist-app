@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bell, X, TrendingUp, AlertCircle, CheckCircle2, Info } from 'lucide-react';
+import { Bell, X, AlertCircle, CheckCircle2, Info } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface Notification {

@@ -162,7 +162,7 @@ export function WithdrawModal({ isOpen, onClose, onWithdraw, totalBalance, posit
                     <div>
                       <p className="text-sm font-medium text-red-400">Insufficient balance</p>
                       <p className="text-xs text-red-400/80 mt-1">
-                        You can't withdraw more than your current balance
+                        You can&apos;t withdraw more than your current balance
                       </p>
                     </div>
                   </div>

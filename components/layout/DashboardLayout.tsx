@@ -3,22 +3,9 @@
 import { Sidebar } from './Sidebar';
 import { ConnectButton } from '../wallet/ConnectButton';
 import { NotificationCenter } from '../notifications/NotificationCenter';
-import { usePathname } from 'next/navigation';
 import { Search } from 'lucide-react';
 
-const getPageTitle = (pathname: string) => {
-  if (pathname === '/') return 'Dashboard';
-  if (pathname === '/strategy') return 'Strategy';
-  if (pathname === '/leaderboard') return 'Leaderboard';
-  if (pathname === '/reports') return 'Reports';
-  if (pathname.startsWith('/profile/')) return 'Profile';
-  return 'Dashboard';
-};
-
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const pageTitle = getPageTitle(pathname);
-
   return (
     <div className="flex min-h-screen bg-[#0a0a0a]">
       <Sidebar />

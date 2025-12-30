@@ -473,7 +473,7 @@ export default function LeaderboardPage() {
             <Filter className="w-5 h-5 text-[#a1a1a1]" />
             <select
               value={riskFilter}
-              onChange={(e) => setRiskFilter(e.target.value as any)}
+              onChange={(e) => setRiskFilter(e.target.value as 'all' | 'low' | 'medium' | 'high')}
               className="px-4 py-3 bg-[#1a1a1a] border border-[#262626] rounded-xl text-white focus:outline-none focus:border-emerald-500"
             >
               <option value="all">All Risk Levels</option>

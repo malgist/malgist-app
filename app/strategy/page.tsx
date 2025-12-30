@@ -364,7 +364,7 @@ export default function StrategyPage() {
 
         {/* SECTION 1: Risk Profile Selection */}
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-white">What's your investment goal?</h2>
+          <h2 className="text-xl font-semibold text-white">What&apos;s your investment goal?</h2>
 
           <div className="grid md:grid-cols-3 gap-4">
             <AIQuestionnaireModal

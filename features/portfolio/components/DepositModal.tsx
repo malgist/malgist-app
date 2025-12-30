@@ -215,7 +215,7 @@ export function DepositModal({ isOpen, onClose, onDeposit }: DepositModalProps) 
                     <div>
                       <p className="text-sm font-medium text-red-400">Insufficient balance</p>
                       <p className="text-xs text-red-400/80 mt-1">
-                        You don't have enough {selectedToken} to deposit this amount
+                        You don&apos;t have enough {selectedToken} to deposit this amount
                       </p>
                     </div>
                   </div>

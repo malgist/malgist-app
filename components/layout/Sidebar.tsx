@@ -9,7 +9,6 @@ import logoSrc from "@/public/LogoMalgist.png";
 import {
   LayoutDashboard,
   TrendingUp,
-  Wallet,
   Menu,
   X,
   Sparkles,

@@ -22,11 +22,14 @@ export function AvatarSelector({ isOpen, onClose, currentAddress, onSave }: Avat
   // Generate variations when style changes
   useEffect(() => {
     if (isOpen) {
-      setIsGenerating(true);
-      const newVariations = generateAvatarVariations(currentAddress, selectedStyle, 8);
-      setVariations(newVariations);
-      setSelectedVariation(0);
-      setIsGenerating(false);
+      // Use microtask to avoid synchronous state updates
+      Promise.resolve().then(() => {
+        setIsGenerating(true);
+        const newVariations = generateAvatarVariations(currentAddress, selectedStyle, 8);
+        setVariations(newVariations);
+        setSelectedVariation(0);
+        setIsGenerating(false);
+      });
     }
   }, [selectedStyle, currentAddress, isOpen]);
 
