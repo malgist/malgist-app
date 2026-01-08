@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { useAccount } from 'wagmi';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -341,30 +340,27 @@ export default function StrategyPage() {
 
   if (!isConnected) {
     return (
-      <DashboardLayout>
-        <div className="flex items-center justify-center min-h-[calc(100vh-200px)]">
-          <div className="text-center">
-            <AlertCircle className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-white mb-2">Wallet Not Connected</h2>
-            <p className="text-[#a1a1a1]">Please connect your wallet to access strategy features</p>
-          </div>
+      <div className="flex items-center justify-center min-h-[calc(100vh-200px)] px-4 sm:px-6">
+        <div className="text-center">
+          <AlertCircle className="w-12 h-12 sm:w-16 sm:h-16 text-yellow-500 mx-auto mb-4" />
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Wallet Not Connected</h2>
+          <p className="text-sm sm:text-base text-[#a1a1a1]">Please connect your wallet to access strategy features</p>
         </div>
-      </DashboardLayout>
+      </div>
     );
   }
 
   return (
-    <DashboardLayout>
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 sm:space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Strategy Builder</h1>
-          <p className="text-[#a1a1a1]">Get AI recommendations or build your own custom allocation</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Strategy Builder</h1>
+          <p className="text-sm sm:text-base text-[#a1a1a1]">Get AI recommendations or build your own custom allocation</p>
         </div>
 
         {/* SECTION 1: Risk Profile Selection */}
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-white">What&apos;s your investment goal?</h2>
+          <h2 className="text-lg sm:text-xl font-semibold text-white">What&apos;s your investment goal?</h2>
 
           <div className="grid md:grid-cols-3 gap-4">
             <AIQuestionnaireModal
@@ -383,22 +379,22 @@ export default function StrategyPage() {
                   whileTap={{ scale: 0.98 }}
                   onClick={() => !isAnalyzing && handleAnalyze(profile.id)}
                   disabled={isAnalyzing}
-                  className={`relative p-6 rounded-xl border-2 transition-all text-left ${
+                  className={`relative p-4 sm:p-6 rounded-xl border-2 transition-all text-left ${
                     isSelected
                       ? 'border-emerald-500 bg-emerald-500/10'
                       : 'border-[#262626] bg-[#1a1a1a] hover:border-[#2a2a2a]'
                   } ${isAnalyzing && !isSelected ? 'opacity-50' : ''}`}
                 >
-                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${profile.gradient} mb-4`}>
-                    <Icon className="w-6 h-6 text-white" />
+                  <div className={`inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${profile.gradient} mb-3 sm:mb-4`}>
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
 
-                  <h3 className="text-xl font-semibold text-white mb-2">{profile.name}</h3>
-                  <p className="text-sm text-[#a1a1a1] mb-3">{profile.description}</p>
+                  <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">{profile.name}</h3>
+                  <p className="text-xs sm:text-sm text-[#a1a1a1] mb-3">{profile.description}</p>
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-2 sm:gap-3">
                     <span className="text-xs text-[#6b7280]">Target APY</span>
-                    <span className="text-sm font-bold text-emerald-400">{profile.targetApy}</span>
+                    <span className="text-xs sm:text-sm font-bold text-emerald-400">{profile.targetApy}</span>
                   </div>
                 </motion.button>
               );
@@ -410,21 +406,21 @@ export default function StrategyPage() {
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
             onClick={() => setIsQuestionnaireOpen(true)}
-            className="w-full p-6 rounded-xl border-2 border-emerald-500/50 bg-gradient-to-br from-emerald-500/10 via-emerald-500/10 to-emerald-500/10 hover:border-emerald-400 transition-all group"
+            className="w-full p-4 sm:p-6 rounded-xl border-2 border-emerald-500/50 bg-gradient-to-br from-emerald-500/10 via-emerald-500/10 to-emerald-500/10 hover:border-emerald-400 transition-all group"
           >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600">
-                  <MessageCircle className="w-7 h-7 text-white" />
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="p-2.5 sm:p-3 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex-shrink-0">
+                  <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
                 <div className="text-left">
-                  <h3 className="text-xl font-semibold text-white mb-1 group-hover:text-emerald-300 transition-colors">
+                  <h3 className="text-base sm:text-xl font-semibold text-white mb-1 group-hover:text-emerald-300 transition-colors">
                     Not sure? Ask AI for personalized strategy
                   </h3>
-                  <p className="text-sm text-[#a1a1a1]">Answer 5 quick questions for a tailored recommendation</p>
+                  <p className="text-xs sm:text-sm text-[#a1a1a1]">Answer 5 quick questions for a tailored recommendation</p>
                 </div>
               </div>
-              <ArrowRight className="w-6 h-6 text-emerald-400 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 group-hover:translate-x-1 transition-transform self-end sm:self-auto" />
             </div>
           </motion.button>
         </div>
@@ -436,11 +432,11 @@ export default function StrategyPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="p-8 rounded-xl bg-[#1a1a1a] border border-[#262626] text-center"
+              className="p-6 sm:p-8 rounded-xl bg-[#1a1a1a] border border-[#262626] text-center"
             >
-              <Loader2 className="w-12 h-12 text-emerald-400 animate-spin mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">Analyzing DeFi Protocols</h3>
-              <p className="text-[#a1a1a1]">
+              <Loader2 className="w-10 h-10 sm:w-12 sm:h-12 text-emerald-400 animate-spin mx-auto mb-4" />
+              <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Analyzing DeFi Protocols</h3>
+              <p className="text-sm sm:text-base text-[#a1a1a1]">
                 AI is analyzing TVL, APY, yield changes, and protocol metrics across multiple chains...
               </p>
             </motion.div>
@@ -453,63 +449,63 @@ export default function StrategyPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="space-y-6"
+              className="space-y-4 sm:space-y-6"
             >
               {/* Summary Card */}
-              <div className="p-6 rounded-xl bg-gradient-to-br from-emerald-500/10 to-emerald-500/10 border-2 border-emerald-500/30">
-                <div className="flex items-start justify-between mb-4">
+              <div className="p-4 sm:p-6 rounded-xl bg-gradient-to-br from-emerald-500/10 to-emerald-500/10 border-2 border-emerald-500/30">
+                <div className="flex flex-col sm:flex-row items-start justify-between mb-4 gap-4">
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-white mb-2">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
                       ✨ Recommended: {analysis.riskLevel.charAt(0).toUpperCase() + analysis.riskLevel.slice(1)}{' '}
                       Strategy
                     </h3>
-                    <p className="text-[#d4d4d4] text-sm leading-relaxed">{analysis.reasoning}</p>
+                    <p className="text-[#d4d4d4] text-xs sm:text-sm leading-relaxed">{analysis.reasoning}</p>
                   </div>
-                  <div className="text-right ml-6">
-                    <p className="text-sm text-[#a1a1a1] mb-1">Expected APY</p>
-                    <p className="text-4xl font-bold text-green-400">{analysis.expectedApy}%</p>
+                  <div className="text-left sm:text-right w-full sm:w-auto sm:ml-6">
+                    <p className="text-xs sm:text-sm text-[#a1a1a1] mb-1">Expected APY</p>
+                    <p className="text-3xl sm:text-4xl font-bold text-green-400">{analysis.expectedApy}%</p>
                   </div>
                 </div>
 
                 {/* Quick Actions */}
-                <div className="flex gap-3 mt-6">
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-4 sm:mt-6">
                   <button
                     onClick={handleUseStrategy}
-                    className="flex-1 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold transition-all flex items-center justify-center gap-2"
+                    className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white text-sm sm:text-base font-semibold transition-all flex items-center justify-center gap-2"
                   >
                     Use This Strategy
-                    <ArrowRight className="w-5 h-5" />
+                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
                   </button>
                   <button
                     onClick={handleCustomize}
-                    className="flex-1 px-6 py-3 rounded-xl bg-[#262626] hover:bg-[#2a2a2a] text-white font-semibold transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-[#262626] hover:bg-[#2a2a2a] text-white text-sm sm:text-base font-semibold transition-colors flex items-center justify-center gap-2"
                   >
-                    <Edit className="w-5 h-5" />
+                    <Edit className="w-4 h-4 sm:w-5 sm:h-5" />
                     Customize Further
-                    <ChevronDown className={`w-5 h-5 transition-transform ${isCustomizing ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${isCustomizing ? 'rotate-180' : ''}`} />
                   </button>
                 </div>
               </div>
 
               {/* Allocations Preview */}
-              <div className="space-y-3">
-                <h3 className="text-lg font-semibold text-white">Recommended Allocations</h3>
+              <div className="space-y-2 sm:space-y-3">
+                <h3 className="text-base sm:text-lg font-semibold text-white">Recommended Allocations</h3>
                 {analysis.allocations.map((allocation, index) => (
                   <motion.div
                     key={allocation.protocol}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="p-4 rounded-xl bg-[#1a1a1a] border border-[#262626]"
+                    className="p-3 sm:p-4 rounded-xl bg-[#1a1a1a] border border-[#262626]"
                   >
-                    <div className="flex items-center justify-between mb-3">
-                      <div>
-                        <h4 className="text-lg font-semibold text-white">{allocation.protocol}</h4>
-                        <div className="flex items-center gap-3 text-sm text-[#a1a1a1] mt-1">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 gap-2 sm:gap-0">
+                      <div className="flex-1">
+                        <h4 className="text-base sm:text-lg font-semibold text-white">{allocation.protocol}</h4>
+                        <div className="flex items-center flex-wrap gap-2 sm:gap-3 text-xs sm:text-sm text-[#a1a1a1] mt-1">
                           <span className="capitalize">{allocation.type}</span>
-                          <span>•</span>
+                          <span className="hidden sm:inline">•</span>
                           <span>TVL: {allocation.tvl}</span>
-                          <span>•</span>
+                          <span className="hidden sm:inline">•</span>
                           <span className={`capitalize ${
                             allocation.risk === 'low' ? 'text-green-400' :
                             allocation.risk === 'medium' ? 'text-yellow-400' : 'text-red-400'
@@ -518,9 +514,9 @@ export default function StrategyPage() {
                           </span>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-white">{allocation.percentage}%</p>
-                        <p className="text-sm text-green-400">{allocation.apy}% APY</p>
+                      <div className="text-left sm:text-right w-full sm:w-auto">
+                        <p className="text-xl sm:text-2xl font-bold text-white">{allocation.percentage}%</p>
+                        <p className="text-xs sm:text-sm text-green-400">{allocation.apy}% APY</p>
                       </div>
                     </div>
 
@@ -551,22 +547,22 @@ export default function StrategyPage() {
               transition={{ duration: 0.3 }}
               className="overflow-hidden"
             >
-              <div className="p-6 rounded-xl bg-[#1a1a1a] border-2 border-emerald-500/30 space-y-6">
+              <div className="p-4 sm:p-6 rounded-xl bg-[#1a1a1a] border-2 border-emerald-500/30 space-y-4 sm:space-y-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-2xl font-bold text-white">Customize Your Strategy</h3>
-                    <p className="text-[#a1a1a1] mt-1">Adjust allocations, add or remove protocols</p>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white">Customize Your Strategy</h3>
+                    <p className="text-xs sm:text-sm text-[#a1a1a1] mt-1">Adjust allocations, add or remove protocols</p>
                   </div>
                   <button
                     onClick={() => setIsCustomizing(false)}
                     className="p-2 rounded-xl hover:bg-[#262626] transition-colors"
                   >
-                    <ChevronUp className="w-6 h-6 text-[#a1a1a1]" />
+                    <ChevronUp className="w-5 h-5 sm:w-6 sm:h-6 text-[#a1a1a1]" />
                   </button>
                 </div>
 
                 {/* Customization Interface */}
-                <div className="grid lg:grid-cols-[320px_1fr_300px] gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr_300px] gap-4 sm:gap-6">
                   {/* Left: Protocol Library */}
                   <ProtocolLibrary
                     protocols={filteredProtocols}
@@ -604,6 +600,5 @@ export default function StrategyPage() {
           )}
         </AnimatePresence>
       </div>
-    </DashboardLayout>
   );
 }

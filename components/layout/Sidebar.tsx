@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import logoSrc from "@/public/LogoMalgist.png";
 import {
@@ -15,87 +15,157 @@ import {
   Trophy,
   User,
   Settings,
-  LogOut
+  LogOut,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useAccount } from 'wagmi';
+import { useSidebar } from '@/lib/hooks/useSidebar';
 
 const menuItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/' },
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
   { id: 'strategy', label: 'Strategy', icon: TrendingUp, path: '/strategy' },
   { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, path: '/leaderboard' },
 ];
 
 export function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const pathname = usePathname();
   const { address, isConnected } = useAccount();
+  const {
+    isDesktop,
+    isMobileMenuOpen,
+    isDesktopCollapsed,
+    toggleMobile,
+    closeMobile,
+    toggleDesktop
+  } = useSidebar();
+
+  // Close mobile menu when clicking on a navigation item
+  const handleNavClick = () => {
+    if (!isDesktop && isMobileMenuOpen) {
+      closeMobile();
+    }
+  };
+
+  // Determine if sidebar should be shown
+  const showSidebar = isDesktop || isMobileMenuOpen;
+  const sidebarWidth = isDesktop && isDesktopCollapsed ? 80 : 288; // 80px or 288px (w-72)
 
   return (
     <>
-      {/* Mobile Menu Button */}
-      <button
-        onClick={() => setCollapsed(!collapsed)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2.5 rounded-xl bg-[#1a1a1a] border border-[#262626] hover:bg-[#262626] transition-colors"
-      >
-        {collapsed ? <Menu className="w-6 h-6 text-white" /> : <X className="w-6 h-6 text-white" />}
-      </button>
+      {/* Mobile Menu Button - Hamburger only when closed */}
+      {!isDesktop && !isMobileMenuOpen && (
+        <button
+          onClick={toggleMobile}
+          className="fixed top-4 left-4 z-50 p-2.5 rounded-xl bg-[#1a1a1a] border border-[#262626] hover:bg-[#262626] transition-colors shadow-lg"
+          aria-label="Open menu"
+        >
+          <Menu className="w-6 h-6 text-white" />
+        </button>
+      )}
 
-      {/* Sidebar - Glider.fi style */}
+      {/* Sidebar */}
       <motion.aside
-        initial={{ x: 0 }}
-        animate={{ x: collapsed ? -280 : 0 }}
+        initial={false}
+        animate={{
+          x: showSidebar ? 0 : -sidebarWidth,
+        }}
+        transition={{
+          type: 'spring',
+          damping: 30,
+          stiffness: 300,
+        }}
         className={clsx(
-          'fixed lg:sticky top-0 left-0 h-screen bg-[#161616] border-r border-[#262626] z-40 flex flex-col transition-all duration-300',
-          collapsed ? 'w-0 lg:w-20' : 'w-72'
+          'fixed top-0 left-0 h-screen bg-[#161616] border-r border-[#262626] z-40 flex flex-col',
+          'lg:sticky',
+          isDesktop && isDesktopCollapsed ? 'w-20' : 'w-72'
         )}
       >
-        {/* Logo - Glider.fi style - Larger */}
+        {/* Logo */}
         <div className="p-3 border-b border-[#262626]">
-          <div className="flex items-center gap-4">
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center overflow-hidden bg-gradient-to-br from-emerald-500 to-emerald-600">
-              <Image
-              src={logoSrc}
-                alt="Malgist Logo"
-                width={44}
-                height={44}
-                className="object-contain"
-              />
-            </div>
-            {!collapsed && (
-              <div>
-                <h1 className="text-base font-bold text-white tracking-tight">Malgist</h1>
-                <p className="text-sm text-[#6b7280]">Automated Portfolios</p>
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-4 flex-1 min-w-0">
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center overflow-hidden bg-linear-to-br from-emerald-500 to-emerald-600 shrink-0">
+                <Image
+                  src={logoSrc}
+                  alt="Malgist Logo"
+                  width={44}
+                  height={44}
+                  className="object-contain"
+                />
               </div>
+              {!(isDesktop && isDesktopCollapsed) && (
+                <div className="overflow-hidden">
+                  <h1 className="text-base font-bold text-white tracking-tight">Malgist</h1>
+                  <p className="text-sm text-[#6b7280]">Automated Portfolios</p>
+                </div>
+              )}
+            </div>
+
+            {/* Close button for mobile - Inside sidebar header */}
+            {!isDesktop && isMobileMenuOpen && (
+              <button
+                onClick={closeMobile}
+                className="p-2 rounded-lg hover:bg-[#1a1a1a] transition-colors shrink-0"
+                aria-label="Close menu"
+              >
+                <X className="w-5 h-5 text-white" />
+              </button>
+            )}
+
+            {/* Collapse button for desktop - Inside sidebar header */}
+            {isDesktop && (
+              <button
+                onClick={toggleDesktop}
+                className="p-2 rounded-lg hover:bg-[#1a1a1a] transition-colors shrink-0"
+                aria-label={isDesktopCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              >
+                {isDesktopCollapsed ? (
+                  <ChevronRight className="w-4 h-4 text-white" />
+                ) : (
+                  <ChevronLeft className="w-4 h-4 text-white" />
+                )}
+              </button>
             )}
           </div>
         </div>
 
-        {/* Navigation - Glider.fi style - Larger */}
-        <nav className="flex-1 p-4 space-y-2">
+        {/* Navigation */}
+        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.path;
+            const collapsed = isDesktop && isDesktopCollapsed;
 
             return (
-              <Link key={item.id} href={item.path}>
+              <Link key={item.id} href={item.path} onClick={handleNavClick}>
                 <motion.div
-                  whileHover={{ x: 2 }}
+                  whileHover={{ x: collapsed ? 0 : 2 }}
                   whileTap={{ scale: 0.98 }}
                   className={clsx(
-                    'flex items-center gap-4 px-4 py-3 rounded-xl transition-all cursor-pointer group',
+                    'flex items-center rounded-xl transition-all cursor-pointer group relative',
+                    collapsed ? 'justify-center px-3 py-3' : 'gap-4 px-4 py-3',
                     isActive
                       ? 'bg-[#1a1a1a] text-white'
                       : 'text-[#a1a1a1] hover:bg-[#1a1a1a] hover:text-white'
                   )}
+                  title={collapsed ? item.label : undefined}
                 >
                   <Icon className={clsx(
-                    'w-6 h-6 flex-shrink-0 transition-colors',
+                    'w-6 h-6 shrink-0 transition-colors',
                     isActive ? 'text-emerald-500' : 'text-[#6b7280] group-hover:text-emerald-500'
                   )} />
                   {!collapsed && (
                     <span className="font-medium text-base">{item.label}</span>
+                  )}
+
+                  {/* Tooltip for collapsed state */}
+                  {collapsed && (
+                    <div className="absolute left-full ml-2 px-3 py-2 bg-[#1a1a1a] border border-[#262626] rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50 pointer-events-none">
+                      <span className="text-sm text-white">{item.label}</span>
+                    </div>
                   )}
                 </motion.div>
               </Link>
@@ -103,7 +173,7 @@ export function Sidebar() {
           })}
         </nav>
 
-        {/* Profile Section - Glider.fi style */}
+        {/* Profile Section */}
         <div className="p-4 border-t border-[#262626] space-y-3">
           {/* User Profile Card */}
           {isConnected && (
@@ -111,13 +181,13 @@ export function Sidebar() {
               <button
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
                 className={clsx(
-                  'w-full p-3 rounded-xl bg-[#1a1a1a] border border-[#262626] hover:bg-[#262626] transition-all group',
-                  collapsed && 'p-2'
+                  'w-full rounded-xl bg-[#1a1a1a] border border-[#262626] hover:bg-[#262626] transition-all group',
+                  isDesktop && isDesktopCollapsed ? 'p-2' : 'p-3'
                 )}
               >
-                {!collapsed ? (
+                {!(isDesktop && isDesktopCollapsed) ? (
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shrink-0">
                       <User className="w-5 h-5 text-white" />
                     </div>
                     <div className="flex-1 text-left overflow-hidden">
@@ -134,11 +204,11 @@ export function Sidebar() {
               </button>
 
               {/* Profile Dropdown Menu */}
-              {showProfileMenu && !collapsed && (
+              {showProfileMenu && !(isDesktop && isDesktopCollapsed) && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="absolute bottom-full left-0 right-0 mb-2 p-2 rounded-xl bg-[#1a1a1a] border border-[#262626] shadow-xl"
+                  className="absolute bottom-full left-0 right-0 mb-2 p-2 rounded-xl bg-[#1a1a1a] border border-[#262626] shadow-xl z-50"
                 >
                   <Link
                     href={`/profile/${address}`}
@@ -167,12 +237,12 @@ export function Sidebar() {
 
           {/* AI Badge */}
           <div className={clsx(
-            'px-3 py-3 rounded-xl bg-[#1a1a1a] border border-[#262626]',
-            collapsed && 'px-2'
+            'rounded-xl bg-[#1a1a1a] border border-[#262626]',
+            isDesktop && isDesktopCollapsed ? 'px-2 py-3' : 'px-3 py-3'
           )}>
-            {!collapsed ? (
+            {!(isDesktop && isDesktopCollapsed) ? (
               <div className="flex items-center gap-3">
-                <Sparkles className="w-5 h-5 text-emerald-500 flex-shrink-0" />
+                <Sparkles className="w-5 h-5 text-emerald-500 shrink-0" />
                 <div>
                   <p className="text-xs text-[#a1a1a1]">AI-Powered</p>
                   <p className="text-sm font-semibold text-white">Smart Strategies</p>
@@ -185,13 +255,19 @@ export function Sidebar() {
         </div>
       </motion.aside>
 
-      {/* Overlay for mobile */}
-      {!collapsed && (
-        <div
-          className="lg:hidden fixed inset-0 bg-black/50 z-30"
-          onClick={() => setCollapsed(true)}
-        />
-      )}
+      {/* Overlay for mobile - Only show when mobile menu is open */}
+      <AnimatePresence>
+        {!isDesktop && isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/60 z-30 lg:hidden"
+            onClick={closeMobile}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }

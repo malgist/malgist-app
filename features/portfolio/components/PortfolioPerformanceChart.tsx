@@ -21,7 +21,7 @@ export default function PortfolioPerformanceChart() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 }}
-      className="grid grid-cols-1 lg:grid-cols-4 gap-6"
+      className="grid grid-cols-1 lg:grid-cols-5 gap-6"
     >
       {/* Portfolio Chart - 3/4 width */}
       <div className="lg:col-span-3 rounded-2xl bg-[#1a1a1a] border border-[#262626]">
@@ -97,7 +97,7 @@ export default function PortfolioPerformanceChart() {
       </div>
 
       {/* Donut Chart - 1/4 width */}
-      <div className="lg:col-span-1 rounded-2xl bg-[#1a1a1a] border border-[#262626] p-6">
+      <div className="lg:col-span-2 rounded-2xl bg-[#1a1a1a] border border-[#262626] p-6">
         <ActivePositionsDonut positions={positions} />
       </div>
     </motion.div>

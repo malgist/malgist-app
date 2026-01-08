@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { motion } from 'framer-motion';
 import {
   Trophy,
@@ -330,8 +329,7 @@ export default function LeaderboardPage() {
   };
 
   return (
-    <DashboardLayout>
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-start justify-between">
           <div>
@@ -381,16 +379,21 @@ export default function LeaderboardPage() {
         </div>
 
         {/* Top 3 Podium */}
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredData.slice(0, 3).map((entry) => {
-            const podiumOrder = entry.rank === 1 ? 2 : entry.rank === 2 ? 1 : 3;
+            const podiumOrder =
+              entry.rank === 1
+                ? 'order-1 md:order-2 lg:order-2'
+                : entry.rank === 2
+                ? 'order-2 md:order-1 lg:order-1'
+                : 'order-3';
             return (
               <motion.div
                 key={entry.rank}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: entry.rank * 0.1 }}
-                className={`order-${podiumOrder}`}
+                className={podiumOrder}
               >
                 <div
                   onClick={() => setSelectedStrategy(entry)}
@@ -484,8 +487,90 @@ export default function LeaderboardPage() {
           </div>
         </div>
 
-        {/* Leaderboard Table */}
-        <div className="rounded-xl bg-[#1a1a1a] border border-[#262626] overflow-hidden">
+        {/* Leaderboard List (Mobile/Tablet) */}
+        <div className="grid gap-4 md:grid-cols-2 lg:hidden">
+          {filteredData.map((entry, index) => (
+            <motion.div
+              key={entry.rank}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.05 }}
+              onClick={() => setSelectedStrategy(entry)}
+              className="p-4 rounded-xl bg-[#1a1a1a] border border-[#262626] hover:bg-[#262626]/30 transition-colors cursor-pointer"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-3">
+                  <span className="text-lg font-bold text-white">#{entry.rank}</span>
+                  {getRankChange(entry.rank, entry.previousRank)}
+                </div>
+                {getRiskBadge(entry.riskLevel)}
+              </div>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border-2 border-white/10">
+                  <Image
+                    src={generateAvatar(entry.user.address, 'adventurer')}
+                    alt={entry.user.username || 'User'}
+                    width={40}
+                    height={40}
+                    className="w-full h-full"
+                  />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium text-white truncate">{entry.user.username}</span>
+                    {entry.user.isVerified && <Star className="w-4 h-4 text-blue-400 fill-blue-400 flex-shrink-0" />}
+                  </div>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-sm text-[#a1a1a1] truncate">{entry.user.address}</span>
+                    <button
+                      onClick={(e) => handleCopyAddress(entry.user.address, e)}
+                      className="text-[#6b7280] hover:text-white transition-colors"
+                    >
+                      {copiedAddress === entry.user.address ? (
+                        <Check className="w-3 h-3 text-green-400" />
+                      ) : (
+                        <Copy className="w-3 h-3" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+                <button
+                  onClick={(e) => handleViewProfile(entry.user.address, e)}
+                  className="p-2 rounded-xl hover:bg-[#262626] transition-colors group flex-shrink-0"
+                >
+                  <ExternalLink className="w-4 h-4 text-[#a1a1a1] group-hover:text-white" />
+                </button>
+              </div>
+              <div className="mb-3">
+                <div className="font-medium text-white mb-1 line-clamp-2">{entry.strategy.name}</div>
+                <div className="flex gap-1 flex-wrap">
+                  {entry.strategy.protocols.map((protocol) => (
+                    <span key={protocol} className="text-xs px-2 py-0.5 rounded bg-[#262626] text-[#a1a1a1]">
+                      {protocol}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <p className="text-xs text-[#6b7280]">APY</p>
+                  <p className="text-lg font-bold text-green-400">{entry.performance.apy}%</p>
+                </div>
+                <div>
+                  <p className="text-xs text-[#6b7280]">Profit</p>
+                  <p className="font-medium text-white">${(entry.performance.profit / 1000).toFixed(1)}K</p>
+                </div>
+                <div>
+                  <p className="text-xs text-[#6b7280]">TVL</p>
+                  <p className="font-medium text-white">${(entry.performance.tvl / 1000).toFixed(0)}K</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Leaderboard Table (Desktop) */}
+        <div className="hidden lg:block rounded-xl bg-[#1a1a1a] border border-[#262626] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-[#262626]/50">
@@ -600,6 +685,5 @@ export default function LeaderboardPage() {
           />
         )}
       </div>
-    </DashboardLayout>
   );
 }

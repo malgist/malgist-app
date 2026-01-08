@@ -16,15 +16,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center justify-between gap-6 px-8 py-4">
             {/* Search Bar - Glider.fi style */}
             <div className="flex-1 max-w-md relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6b7280]" />
-              <input
-                type="text"
-                placeholder="Search portfolios, strategies, tokens..."
-                className="w-full pl-10 pr-4 py-2 bg-[#1a1a1a] border border-[#262626] rounded-xl text-white text-sm placeholder-[#6b7280] focus:outline-none focus:border-emerald-500 transition-colors"
-              />
-              <kbd className="absolute right-3 top-1/2 -translate-y-1/2 px-2 py-0.5 text-xs text-[#6b7280] bg-[#262626] rounded border border-[#2a2a2a]">
-                /
-              </kbd>
+            
             </div>
 
             <div className="flex items-center gap-3">
